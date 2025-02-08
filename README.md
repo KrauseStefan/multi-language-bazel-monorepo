@@ -100,7 +100,7 @@ Loaded image: projects/go_web:oci_tarball_arm64
 ### Deploying Go web app to Heroku
 
 ```
-➜ bazel run projects/go_web:bazoku-deployment --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64
+➜ bazel run projects/go_web:bazoku-deployment --platforms=@rules_go//go/toolchain:linux_amd64
 ...
 ```
 

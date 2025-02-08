@@ -8,55 +8,10 @@ workspace(
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
-    name = "rules_license",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_license/releases/download/1.0.0/rules_license-1.0.0.tar.gz",
-        "https://github.com/bazelbuild/rules_license/releases/download/1.0.0/rules_license-1.0.0.tar.gz",
-    ],
-    sha256 = "26d4021f6898e23b82ef953078389dd49ac2b5618ac564ade4ef87cced147b38",
-)
-
-http_archive(
-    name = "bazel_skylib",
-    sha256 = "bc283cdfcd526a52c3201279cda4bc298652efa898b10b4db0837dc51652756f",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.7.1/bazel-skylib-1.7.1.tar.gz",
-        "https://github.com/bazelbuild/bazel-skylib/releases/download/1.7.1/bazel-skylib-1.7.1.tar.gz",
-    ],
-)
-load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
-bazel_skylib_workspace()
-
-http_archive(
-    name = "aspect_bazel_lib",
-    sha256 = "c96db69dd2714a37f3298338a1a42b27e3a2696c3b36dd4441b9bf7a1a12bee0",
-    strip_prefix = "bazel-lib-2.11.0",
-    url = "https://github.com/bazel-contrib/bazel-lib/releases/download/v2.11.0/bazel-lib-v2.11.0.tar.gz",
-)
-
-http_archive(
     name = "rules_python",
     sha256 = "9c6e26911a79fbf510a8f06d8eedb40f412023cf7fa6d1461def27116bff022c",
     strip_prefix = "rules_python-1.1.0",
     url = "https://github.com/bazelbuild/rules_python/releases/download/1.1.0/rules_python-1.1.0.tar.gz",
-)
-
-http_archive(
-    name = "io_bazel_rules_go",
-    sha256 = "90fe8fb402dee957a375f3eb8511455bd738c7ed562695f4dd117ac7d2d833b1",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazel-contrib/rules_go/releases/download/v0.52.0/rules_go-v0.52.0.zip",
-        "https://github.com/bazel-contrib/rules_go/releases/download/v0.52.0/rules_go-v0.52.0.zip",
-    ],
-)
-
-http_archive(
-    name = "bazel_gazelle",
-    integrity = "sha256-12v3pg/YsFBEQJDfooN6Tq+YKeEWVhjuNdzspcvfWNU=",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.37.0/bazel-gazelle-v0.37.0.tar.gz",
-        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.37.0/bazel-gazelle-v0.37.0.tar.gz",
-    ],
 )
 
 http_archive(
@@ -103,16 +58,6 @@ http_archive(
     sha256 = "b0b8b7b2cfbf575112acf716ec788847929f322efa5c34195eb12a43d1df7e5c",
 )
 
-RULES_JVM_EXTERNAL_TAG = "6.6"
-RULES_JVM_EXTERNAL_SHA = "3afe5195069bd379373528899c03a3072f568d33bd96fe037bd43b1f590535e7"
-
-http_archive(
-    name = "rules_jvm_external",
-    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
-    sha256 = RULES_JVM_EXTERNAL_SHA,
-    url = "https://github.com/bazel-contrib/rules_jvm_external/releases/download/%s/rules_jvm_external-%s.tar.gz" % (RULES_JVM_EXTERNAL_TAG, RULES_JVM_EXTERNAL_TAG)
-)
-
 ### Python Setup
 
 load("@rules_python//python:repositories.bzl", "py_repositories")
@@ -127,20 +72,6 @@ pip_parse(
 
 load("@pip//:requirements.bzl", "install_deps")
 install_deps()
-
-### Golang Setup
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
-load("//:go_deps.bzl", "go_dependencies")
-
-# gazelle:repository_macro go_deps.bzl%go_dependencies
-go_dependencies()
-
-go_rules_dependencies()
-
-go_register_toolchains(version = "1.20.5")
-
-gazelle_dependencies(go_repository_default_config = "@//:WORKSPACE.bazel")
 
 ### NodeJS Setup
 
@@ -236,40 +167,11 @@ protobuf_deps()
 load("@rules_java//java:repositories.bzl", "rules_java_toolchains")
 rules_java_toolchains()
 
-load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
-
-rules_jvm_external_deps()
-
-load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
-rules_jvm_external_setup()
-
-load("@rules_jvm_external//:defs.bzl", "maven_install")
-
-# when the list of dependencies changes
-# bazel run @unpinned_maven//:pin
-maven_install(
-    artifacts = [
-        "com.github.javafaker:javafaker:1.0.2",
-        "org.junit.jupiter:junit-jupiter-api:5.10.0",
-        "org.junit.jupiter:junit-jupiter-engine:5.10.0",
-        "org.junit.platform:junit-platform-launcher:1.10.0",
-        "org.junit.platform:junit-platform-reporting:1.10.0",
-    ],
-    repositories = [
-        "https://maven.google.com",
-        "https://repo1.maven.org/maven2",
-    ],
-    maven_install_json = "//:maven_install.json",
-)
-
-load("@maven//:defs.bzl", "pinned_maven_install")
-pinned_maven_install()
-
 load("@rules_oci//oci:dependencies.bzl", "rules_oci_dependencies")
 
 rules_oci_dependencies()
 
-load("@rules_oci//oci:repositories.bzl", "LATEST_CRANE_VERSION", "LATEST_ZOT_VERSION", "oci_register_toolchains")
+load("@rules_oci//oci:repositories.bzl", "LATEST_CRANE_VERSION", "oci_register_toolchains")
 
 oci_register_toolchains(
     name = "oci",
@@ -298,34 +200,6 @@ oci_pull(
     image = "debian",
     platforms = ["linux/amd64",],
 )
-
-# oci_pull(
-#     name = "distroless_base",
-#     digest = "sha256:161a1d97d592b3f1919801578c3a47c8e932071168a96267698f4b669c24c76d",
-#     image = "gcr.io/distroless/java17",
-# )
-
-
-http_archive(
-    name = "contrib_rules_jvm",
-    sha256 = "bd0f82def1879df85ff0a80767e6455911e1c9c1eac5db1de8f68dcccd4a3d7a",
-    strip_prefix = "rules_jvm-0.18.0",
-    url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.18.0/rules_jvm-v0.18.0.tar.gz",
-)
-
-load("@contrib_rules_jvm//:repositories.bzl", "contrib_rules_jvm_deps", "contrib_rules_jvm_gazelle_deps")
-
-contrib_rules_jvm_deps()
-
-contrib_rules_jvm_gazelle_deps()
-
-load("@contrib_rules_jvm//:setup.bzl", "contrib_rules_jvm_setup")
-
-contrib_rules_jvm_setup()
-
-load("@contrib_rules_jvm//:gazelle_setup.bzl", "contrib_rules_jvm_gazelle_setup")
-
-contrib_rules_jvm_gazelle_setup()
 
 http_archive(
     name = "zlib",
