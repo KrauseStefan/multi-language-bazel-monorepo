@@ -1,4 +1,6 @@
 
+common --noenable_workspace
+
 # common --@aspect_rules_ts//ts:skipLibCheck=always
 common --@aspect_rules_ts//ts:skipLibCheck=honor_tsconfig
 common --@aspect_rules_ts//ts:default_to_tsc_transpiler

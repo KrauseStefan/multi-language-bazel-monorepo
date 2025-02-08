@@ -97,13 +97,6 @@ Loaded image: projects/go_web:oci_tarball_arm64
 2023/08/27 13:40:58 Going to listen on port: 8080
 ```
 
-### Deploying Go web app to Heroku
-
-```
-➜ bazel run projects/go_web:bazoku-deployment --platforms=@rules_go//go/toolchain:linux_amd64
-...
-```
-
 ### Publishing Multi-arch Docker image to DockerHub
 
 ```

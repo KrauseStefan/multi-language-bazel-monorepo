@@ -1,7 +1,6 @@
 load("@rules_go//go:def.bzl", "go_binary", "go_library")
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_image_index", "oci_push", "oci_load")
-load("@bazoku//:bazoku.bzl", "bazoku")
 
 go_library(
     name = "go_web_lib",
@@ -76,12 +75,6 @@ oci_push(
     image = ":multi_arch_image",
     remote_tags = ["6"],
     repository = "registry.hub.docker.com/krisfoster96/monorepo-go-web",
-)
-
-bazoku(
-    name = "bazoku-deployment",
-    binary = ":go_web_amd64",
-    heroku_app_name = "my-bazoku-app",
 )
 
 go_binary(
