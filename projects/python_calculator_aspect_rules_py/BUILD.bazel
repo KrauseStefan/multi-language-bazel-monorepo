@@ -1,0 +1,19 @@
+load("@aspect_rules_py//py:defs.bzl", "py_test", "py_library")
+
+py_library(
+    name = "calculator",
+    srcs = [
+        "calculator.py",
+    ],
+    visibility = ["//projects/python_web:__pkg__"],
+)
+
+py_test(
+    name = "calculator_test",
+    deps = [
+        "calculator",
+    ],
+    srcs = [
+        "calculator_test.py",
+    ],
+)
