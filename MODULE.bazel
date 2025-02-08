@@ -1,8 +1,6 @@
 
 bazel_dep(name = "rules_license", version = "1.0.0")
 
-
-
 bazel_dep(name = "bazel_skylib", version = "1.7.1")
 
 # If the Gazelle plugin is needed:
@@ -10,7 +8,6 @@ bazel_dep(name = "bazel_skylib_gazelle_plugin", version = "1.7.1", dev_dependenc
 
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.13.0")
-
 
 # GOLANG
 
@@ -56,3 +53,18 @@ bazel_dep(
     name = "contrib_rules_jvm",
     version = "0.27.0",
 )
+
+
+# Python
+
+bazel_dep(name = "rules_python", version = "1.1.0")
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+
+pip.parse(
+    hub_name = "pip",
+    python_version = "3.11",
+    requirements_lock = "//third_party:requirements.txt",
+)
+
+use_repo(pip, "pip")
