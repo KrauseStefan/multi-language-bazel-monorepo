@@ -8,33 +8,10 @@ workspace(
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
-    name = "rules_proto",
-    sha256 = "14a225870ab4e91869652cfd69ef2028277fc1dc4910d65d353b62d6e0ae21f4",
-    strip_prefix = "rules_proto-7.1.0",
-    url = "https://github.com/bazelbuild/rules_proto/releases/download/7.1.0/rules_proto-7.1.0.tar.gz",
-)
-
-http_archive(
-    name = "rules_pkg",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/1.0.1/rules_pkg-1.0.1.tar.gz",
-        "https://github.com/bazelbuild/rules_pkg/releases/download/1.0.1/rules_pkg-1.0.1.tar.gz",
-    ],
-    sha256 = "d20c951960ed77cb7b341c2a59488534e494d5ad1d30c4818c736d57772a9fef",
-)
-
-http_archive(
     name = "rules_nodejs",
     sha256 = "732aa2aeef9ba629cd7fa1cb30da07e6b696ed78706b08d84d5d8601982f38b1",
     strip_prefix = "rules_nodejs-6.3.3",
     url = "https://github.com/bazel-contrib/rules_nodejs/releases/download/v6.3.3/rules_nodejs-v6.3.3.tar.gz",
-)
-
-http_archive(
-    name = "rules_oci",
-    sha256 = "176e601d21d1151efd88b6b027a24e782493c5d623d8c6211c7767f306d655c8",
-    strip_prefix = "rules_oci-1.2.0",
-    url = "https://github.com/bazel-contrib/rules_oci/releases/download/v1.2.0/rules_oci-v1.2.0.tar.gz",
 )
 
 http_archive(
@@ -126,14 +103,6 @@ load("@bazoku//tools:deps.bzl", "bazoku_deps")
 
 bazoku_deps()
 
-### Protobuf
-
-load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies")
-load("@rules_proto//proto:toolchains.bzl", "rules_proto_toolchains")
-
-rules_proto_dependencies()
-rules_proto_toolchains()
-
 ### Java
 
 load("@rules_java//java:rules_java_deps.bzl", "rules_java_dependencies")
@@ -144,40 +113,6 @@ protobuf_deps()
 
 load("@rules_java//java:repositories.bzl", "rules_java_toolchains")
 rules_java_toolchains()
-
-load("@rules_oci//oci:dependencies.bzl", "rules_oci_dependencies")
-
-rules_oci_dependencies()
-
-load("@rules_oci//oci:repositories.bzl", "LATEST_CRANE_VERSION", "oci_register_toolchains")
-
-oci_register_toolchains(
-    name = "oci",
-    crane_version = LATEST_CRANE_VERSION,
-    # If a docker media types compatible registry is desired, just omit `zot_version` and crane registry will be used instead.
-    # zot_version = LATEST_ZOT_VERSION,
-)
-
-# Optional, for oci_tarball rule
-load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
-
-rules_pkg_dependencies()
-
-load("@rules_oci//oci:pull.bzl", "oci_pull")
-
-oci_pull(
-    name = "distroless_base",
-    image = "gcr.io/distroless/base-debian12",
-    tag = "debug",
-    platforms = ["linux/amd64", "linux/arm64/v8"],
-)
-
-oci_pull(
-    name = "debian_base",
-    digest = "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
-    image = "debian",
-    platforms = ["linux/amd64",],
-)
 
 http_archive(
     name = "zlib",

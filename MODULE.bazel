@@ -1,13 +1,11 @@
 
 bazel_dep(name = "rules_license", version = "1.0.0")
-
 bazel_dep(name = "bazel_skylib", version = "1.7.1")
-
-# If the Gazelle plugin is needed:
 bazel_dep(name = "bazel_skylib_gazelle_plugin", version = "1.7.1", dev_dependency = True)
-
-
 bazel_dep(name = "aspect_bazel_lib", version = "2.13.0")
+bazel_dep(name = "rules_pkg", version = "1.0.1")
+bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "rules_oci", version = "2.2.1")
 
 # GOLANG
 
@@ -68,3 +66,29 @@ pip.parse(
 )
 
 use_repo(pip, "pip")
+
+# Images
+
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+
+oci.pull(
+    name = "distroless_base",
+    image = "gcr.io/distroless/base-debian12",
+    tag = "debug",
+    platforms = ["linux/amd64", "linux/arm64/v8"],
+)
+
+oci.pull(
+    name = "debian_base",
+    digest = "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
+    image = "debian",
+    platforms = ["linux/amd64",],
+)
+
+use_repo(
+    oci,
+    "distroless_base_linux_amd64",
+    "distroless_base_linux_arm64_v8",
+    "debian_base",
+)
+

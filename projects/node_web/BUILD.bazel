@@ -1,5 +1,5 @@
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_image_layer")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
 
 js_binary(
     name = "node_web",
@@ -36,8 +36,8 @@ oci_image(
     ],
 )
 
-oci_tarball(
-    name = "oci_tarball",
+oci_load(
+    name = "oci_load",
     image = ":oci_image",
-    repo_tags = ["projects/node_web:oci_tarball"],
+    repo_tags = ["projects/node_web:oci_load"],
 )

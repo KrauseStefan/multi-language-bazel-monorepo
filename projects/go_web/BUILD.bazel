@@ -1,6 +1,6 @@
 load("@rules_go//go:def.bzl", "go_binary", "go_library")
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_image_index", "oci_push", "oci_tarball")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_image_index", "oci_push", "oci_load")
 load("@bazoku//:bazoku.bzl", "bazoku")
 
 go_library(
@@ -55,10 +55,10 @@ oci_image(
 )
 
 [
-    oci_tarball(
-        name = "oci_tarball_" + arch,
+    oci_load(
+        name = "oci_load_" + arch,
         image = ":oci_image_" + arch,
-        repo_tags = ["projects/go_web:oci_tarball_" + arch],
+        repo_tags = ["projects/go_web:oci_load_" + arch],
     )
     for arch in archs
 ]
