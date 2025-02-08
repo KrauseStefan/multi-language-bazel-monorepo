@@ -20,14 +20,6 @@ http_archive(
     urls = ["https://github.com/salesforce/bazoku/releases/download/v0.2.0/bazoku-v0.2.0.tar.gz"],
 )
 
-http_archive(
-    name = "rules_java",
-    urls = [
-        "https://github.com/bazelbuild/rules_java/releases/download/8.7.2/rules_java-8.7.2.tar.gz",
-    ],
-    sha256 = "b0b8b7b2cfbf575112acf716ec788847929f322efa5c34195eb12a43d1df7e5c",
-)
-
 ### NodeJS Setup
 
 http_archive(
@@ -102,17 +94,6 @@ rules_ts_dependencies(
 load("@bazoku//tools:deps.bzl", "bazoku_deps")
 
 bazoku_deps()
-
-### Java
-
-load("@rules_java//java:rules_java_deps.bzl", "rules_java_dependencies")
-rules_java_dependencies()
-
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-protobuf_deps()
-
-load("@rules_java//java:repositories.bzl", "rules_java_toolchains")
-rules_java_toolchains()
 
 http_archive(
     name = "zlib",
