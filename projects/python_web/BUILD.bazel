@@ -1,18 +1,37 @@
 load("@rules_python//python:py_binary.bzl", "py_binary")
 load("@rules_python//python:py_library.bzl", "py_library")
 
-py_library(
-    name = "python_web_lib",
-    srcs = ["python_web.py"],
-    deps = [
-        "//projects/python_calculator:calculator",
-        "@pip//flask:pkg",
-    ],
-)
+# gazelle:python_library_naming_convention $package_name$_lib
 
 py_binary(
     name = "python_web",
     srcs = ["python_web.py"],
-    main = "python_web.py",
-    deps = [":python_web_lib"],
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//projects/python_calculator:calculator",
+        "@pip//flask",
+    ],
+)
+
+py_library(
+    name = "python_web_lib",
+    srcs = ["python_web.py"],
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//projects/python_calculator:calculator",
+        "@pip//flask",
+    ],
+)
+
+
+load("@rules_license//rules_gathering:generate_sbom.bzl", "generate_sbom")
+
+# There are not a lot of targets in this rule set to build a SBOM from
+# so we will (in a very self-referential way) generate one for the tool
+# which generates the SBOMs
+# See the output in bazel-bin/examples/sboms/write_sbom.txt
+generate_sbom(
+    name = "write_sbom",
+    out = "write_sbom.txt",
+    deps = ["//tools:write_sbom"],
 )

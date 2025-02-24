@@ -1,8 +1,12 @@
-load("@aspect_rules_py//py:defs.bzl", "py_test", "py_library")
+# gazelle:python_validate_import_statements false
+load("@aspect_rules_py//py:defs.bzl", "py_library", "py_test")
+
+# gazelle:python_library_naming_convention calculator
 
 py_library(
     name = "calculator",
     srcs = [
+        "__init__.py",
         "calculator.py",
     ],
     visibility = ["//projects/python_web:__pkg__"],
@@ -10,10 +14,7 @@ py_library(
 
 py_test(
     name = "calculator_test",
-    deps = [
-        "calculator",
-    ],
-    srcs = [
-        "calculator_test.py",
-    ],
+    srcs = ["calculator_test.py"],
+    imports = ["."],
+    deps = [":calculator"],
 )

@@ -1,0 +1,13 @@
+exports_files(["requirements.txt"])
+
+# genrule(
+#     name = "foo",
+#     srcs = [],
+#     outs = ["foo.h"],
+#     cmd = "./$(location create_foo.pl) > \"$@\"",
+#     tags = [
+#       "local"
+#     ]
+
+#     tools = ["create_foo.pl"],
+# )
