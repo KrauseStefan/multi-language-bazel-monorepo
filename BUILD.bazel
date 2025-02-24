@@ -1,5 +1,24 @@
 load("@gazelle//:def.bzl", "DEFAULT_LANGUAGES", "gazelle", "gazelle_binary")
 load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@pip//:requirements.bzl", "all_whl_requirements")
+load("@rules_python_gazelle_plugin//manifest:defs.bzl", "gazelle_python_manifest")
+load("@rules_python_gazelle_plugin//modules_mapping:def.bzl", "modules_mapping")
+
+modules_mapping(
+    name = "modules_map",
+    wheels = all_whl_requirements,
+)
+
+# Gazelle python extension needs a manifest file mapping from an import to the installed package that provides it.
+# This macro produces two targets:
+# - //:gazelle_python_manifest.update can be used with `bazel run` to recalculate the manifest
+# - //:gazelle_python_manifest.test is a test target ensuring that the manifest doesn't need to be updated
+gazelle_python_manifest(
+    name = "gazelle_python_manifest",
+    modules_mapping = ":modules_map",
+    pip_repository_name = "pip",
+    requirements = "//third_party:requirements.txt",
+)
 
 # gazelle:prefix github.com/kriscfoster/multi-language-bazel-monorepo
 # gazelle:java_maven_install_file maven_install.json
@@ -11,7 +30,9 @@ gazelle(
 gazelle_binary(
     name = "gazelle_bin",
     languages = DEFAULT_LANGUAGES + [
+        # DEFAULT_LANGUAGES are Go and Proto at time of writing
         "@contrib_rules_jvm//java/gazelle",
+        "@rules_python_gazelle_plugin//python",
     ],
 )
 

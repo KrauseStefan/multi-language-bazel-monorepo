@@ -1,12 +1,14 @@
 load("@rules_python//python:py_binary.bzl", "py_binary")
 load("@rules_python//python:py_library.bzl", "py_library")
 
+# gazelle:python_library_naming_convention: $package_name$_lib
 py_library(
     name = "python_web_lib",
     srcs = ["python_web.py"],
+    visibility = ["//:__subpackages__"],
     deps = [
         "//projects/python_calculator:calculator",
-        "@pip//flask:pkg",
+        "@pip//flask",
     ],
 )
 
@@ -14,5 +16,9 @@ py_binary(
     name = "python_web",
     srcs = ["python_web.py"],
     main = "python_web.py",
-    deps = [":python_web_lib"],
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//projects/python_calculator:calculator",
+        "@pip//flask",
+    ],
 )
