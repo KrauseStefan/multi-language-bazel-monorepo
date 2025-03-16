@@ -1,5 +1,5 @@
-# gazelle:python_validate_import_statements false
-load("@aspect_rules_py//py:defs.bzl", "py_library", "py_binary")
+load("@rules_python//python:py_binary.bzl", "py_binary")
+load("@rules_python//python:py_library.bzl", "py_library")
 load("@rules_uv//uv:venv.bzl", "create_venv")
 
 # gazelle:python_library_naming_convention: $package_name$_lib
@@ -8,7 +8,7 @@ py_library(
     srcs = ["python_web.py"],
     visibility = ["//:__subpackages__"],
     deps = [
-        "//projects/python_calculator:calculator",
+        "//projects/python_calculator_original:calculator",
         "@pip//flask",
     ],
 )
@@ -19,7 +19,7 @@ py_binary(
     main = "python_web.py",
     visibility = ["//:__subpackages__"],
     deps = [
-        "//projects/python_calculator:calculator",
+        "//projects/python_calculator_original:calculator",
         "@pip//flask",
     ],
 )

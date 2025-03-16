@@ -1,17 +1,28 @@
-load("@rules_python//python:py_library.bzl", "py_library")
-load("@rules_python//python:py_test.bzl", "py_test")
+# gazelle:python_validate_import_statements false
+load("@aspect_rules_py//py:defs.bzl", "py_library", "py_test")
+load("@rules_uv//uv:venv.bzl", "create_venv")
 
 # gazelle:python_library_naming_convention calculator
 py_library(
     name = "calculator",
-    srcs = ["calculator.py"],
-    # https://github.com/bazelbuild/rules_python/issues/1221#issuecomment-2562062268
-    imports = ["."],
+    srcs = [
+        "calculator.py",
+    ],
     visibility = ["//projects/python_web:__pkg__"],
 )
 
 py_test(
     name = "calculator_test",
-    srcs = ["calculator_test.py"],
-    deps = [":calculator"],
+    srcs = [
+        "calculator_test.py",
+    ],
+    imports = ["."],
+    deps = [
+        ":calculator",
+    ],
+)
+
+create_venv(
+    name = "create_venv",
+    requirements_txt = "//third_party:requirements.txt",
 )
