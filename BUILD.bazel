@@ -3,6 +3,7 @@ load("@npm//:defs.bzl", "npm_link_all_packages")
 load("@pip//:requirements.bzl", "all_whl_requirements")
 load("@rules_python_gazelle_plugin//manifest:defs.bzl", "gazelle_python_manifest")
 load("@rules_python_gazelle_plugin//modules_mapping:def.bzl", "modules_mapping")
+load("@rules_uv//uv:pip.bzl", "pip_compile")
 
 modules_mapping(
     name = "modules_map",
@@ -47,3 +48,10 @@ gazelle(
 )
 
 npm_link_all_packages(name = "npm")
+
+
+pip_compile(
+    name = "generate_requirements_txt",
+    requirements_in = "//:pyproject.toml",
+    requirements_txt = "//third_party:requirements.txt", # default
+)

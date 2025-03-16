@@ -1,0 +1,8 @@
+[project]
+name = "multi-language-bazel-monorepo"
+dynamic = ["version"]
+version = "0.0.1"
+
+dependencies = [
+  "Flask == 2.0.2",
+]

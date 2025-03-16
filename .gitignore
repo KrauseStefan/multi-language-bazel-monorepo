@@ -6,6 +6,8 @@ bazel-testlogs
 __pycache__
 
 .idea
+.bazelbsp
+*.iml
 
 node_modules
 
