@@ -17,6 +17,7 @@ ts_project(
     name = "ts_app",
     srcs = [
         "calculator.ts",
+        "calculator_mul.ts",
         "index.ts",
     ],
     tsconfig = "config",
