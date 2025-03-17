@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+bazel run --config=silent -- @pnpm//:pnpm --dir $PWD "$@"
+
+# run_script=$(mktemp /tmp/run-script.XXXXXX)
+# # trap "rm -f ${run_script}" EXIT
+
+# bazel run --script_path="${run_script}" --config=silent -- @pnpm//:pnpm "$@"
+
+# cat "${run_script}"
+
+# # "${run_script}" "$@"
