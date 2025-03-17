@@ -13,5 +13,5 @@ jest_test(
         "calculator.spec.js",
         ":node_calculator",
     ],
-    node_modules = "//:npm",
+    node_modules = "//:node_modules",
 )

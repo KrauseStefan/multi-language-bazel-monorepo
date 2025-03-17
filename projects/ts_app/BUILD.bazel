@@ -20,4 +20,8 @@ ts_project(
         "index.ts",
     ],
     tsconfig = "config",
+    deps = [
+        "//:node_modules/@types/express",
+        "//:node_modules/express",
+    ],
 )

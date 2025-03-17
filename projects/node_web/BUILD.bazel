@@ -4,7 +4,7 @@ load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
 js_binary(
     name = "node_web",
     data = [
-        "//:npm/express",
+        "//:node_modules/express",
         "//projects/node_calculator",
     ],
     entry_point = ":index.js",
