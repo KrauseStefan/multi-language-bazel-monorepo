@@ -1,11 +1,10 @@
-# gazelle:python_validate_import_statements false
 load("@aspect_rules_py//py:defs.bzl", "py_library", "py_test")
 load("@rules_uv//uv:venv.bzl", "create_venv")
 
-# gazelle:python_library_naming_convention calculator
 py_library(
     name = "calculator",
     srcs = [
+        "__init__.py",
         "calculator.py",
     ],
     visibility = ["//projects/python_web:__pkg__"],

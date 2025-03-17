@@ -1,17 +1,6 @@
+# gazelle:ignore
 load("@rules_python//python:py_binary.bzl", "py_binary")
-load("@rules_python//python:py_library.bzl", "py_library")
 load("@rules_uv//uv:venv.bzl", "create_venv")
-
-# gazelle:python_library_naming_convention: $package_name$_lib
-py_library(
-    name = "python_web_lib",
-    srcs = ["python_web.py"],
-    visibility = ["//:__subpackages__"],
-    deps = [
-        "//projects/python_calculator_original:calculator",
-        "@pip//flask",
-    ],
-)
 
 py_binary(
     name = "python_web",
@@ -26,9 +15,9 @@ py_binary(
 
 create_venv(
     name = "create_venv",
+    destination_folder = ".venv",  # string, default = "venv"
     requirements_txt = "//third_party:requirements.txt",
-    destination_folder = ".venv", # string, default = "venv"
-    site_packages_extra_files = [], # label_list, default = [], doc = "Files to add to the site-packages folder inside the virtual environment. Useful for adding `sitecustomize.py` or `.pth` files".
+    site_packages_extra_files = [],  # label_list, default = [], doc = "Files to add to the site-packages folder inside the virtual environment. Useful for adding `sitecustomize.py` or `.pth` files".
     # template = "", label, script to run uv with
-    uv_args = [], # string_list, default = []
+    uv_args = [],  # string_list, default = []
 )

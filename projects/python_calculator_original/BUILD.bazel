@@ -1,10 +1,13 @@
+# gazelle:ignore
 load("@rules_python//python:py_library.bzl", "py_library")
 load("@rules_python//python:py_test.bzl", "py_test")
 
-# gazelle:python_library_naming_convention calculator
 py_library(
     name = "calculator",
-    srcs = ["calculator.py"],
+    srcs = [
+        "__init__.py",
+        "calculator.py",
+    ],
     # https://github.com/bazelbuild/rules_python/issues/1221#issuecomment-2562062268
     imports = ["."],
     visibility = ["//projects/python_web_original:__pkg__"],

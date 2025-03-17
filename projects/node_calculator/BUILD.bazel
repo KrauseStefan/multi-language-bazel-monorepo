@@ -3,12 +3,12 @@ load("@aspect_rules_js//js:defs.bzl", "js_library")
 
 js_library(
     name = "node_calculator",
-    srcs = ["calculator.js"],
+    srcs = ["calculator.js"],  # keep
     visibility = ["//projects/node_web:__pkg__"],
 )
 
 jest_test(
-    name = "calculator_test",
+    name = "node_calculator_test",
     data = [
         "calculator.spec.js",
         ":node_calculator",

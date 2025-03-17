@@ -2,9 +2,9 @@ load("@aspect_rules_js//js:defs.bzl", "js_binary")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
 
 js_binary(
-    name = "ts_app",
-    data = [":my_code/calculator.js"],
-    entry_point = ":my_code/index.js",
+    name = "bin",
+    data = [":ts_app"],
+    entry_point = ":index.js",
 )
 
 ts_config(
@@ -14,9 +14,10 @@ ts_config(
 )
 
 ts_project(
-    name = "my_code",
-    srcs = glob(["*.ts"]),
-    out_dir = "my_code",
+    name = "ts_app",
+    srcs = [
+        "calculator.ts",
+        "index.ts",
+    ],
     tsconfig = "config",
-    deps = [],
 )

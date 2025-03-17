@@ -33,7 +33,7 @@ gazelle_binary(
     languages = DEFAULT_LANGUAGES + [
         # DEFAULT_LANGUAGES are Go and Proto at time of writing
         "@contrib_rules_jvm//java/gazelle",
-        "@rules_python_gazelle_plugin//python",
+        # "@rules_python_gazelle_plugin//python",
     ],
 )
 
